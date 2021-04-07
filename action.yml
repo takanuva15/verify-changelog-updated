@@ -1,0 +1,22 @@
+name: Verify Changelog Updated
+description: Verify that the changelog file has been updated in the current PR
+branding:
+  icon: check-circle
+  color: orange
+inputs:
+  excused_label:
+    description: PR label that exempts the PR from the changelog update requirement if present
+    required: false
+    default: changelog update optional
+  changelog_filename:
+    description: Name of the changelog file (case-sensitive)
+    required: false
+    default: CHANGELOG.md
+runs:
+  using: "composite"
+  steps:
+  - run: ${{ github.action_path }}/verify_changelog_updated.sh
+    shell: bash
+    env:
+      EXCUSED_LABEL: ${{ inputs.excused_label }}
+      CHANGELOG_FILENAME: ${{ inputs.changelog_filename }}

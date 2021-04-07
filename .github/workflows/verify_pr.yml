@@ -1,0 +1,11 @@
+name: Run PR Checks
+on: [pull_request]
+jobs:
+  check_changelog:
+    name: Verify Changelog Updated
+    runs-on: ubuntu-latest
+    steps:
+    - name: Verify Changelog Updated
+      uses: takanuva15/verify-changelog-updated@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

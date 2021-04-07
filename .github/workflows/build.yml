@@ -1,0 +1,17 @@
+name: Verify Code
+on: [push]
+jobs:
+  bash_linter:
+    name: Lint Bash Script
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run bash script checker
+      uses: luizm/action-sh-checker@v0.1.13
+  editorconfig_linter:
+    name: Lint Codebase
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run EditorConfig Linter
+      uses: editorconfig-checker/action-editorconfig-checker@v1.0.0
