@@ -25,14 +25,8 @@ if [[ ${pr_labels[@]} =~ ${EXCUSED_LABEL} ]]; then
 fi
 
 # Step 3: Fetch all changed files in this PR and verify the changelog file is among the changes
-owner=$(jq -r '.base.repo.owner.login' <<<"$pr_info_json")
 pr_api_url=$(jq -r '._links.self.href' <<<"$pr_info_json")
-if ! curl --silent --fail --user "$owner":"$GITHUB_TOKEN" "$pr_api_url" >/dev/null; then
-  echoerr "Could not fetch info about the current PR. Was the GitHub token set in the workflow file?"
-  exit 1
-fi
-
-pr_files_json=$(curl -s -u "$owner":"$GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" "$pr_api_url/files")
+pr_files_json=$(curl -s -u "$OWNER":"$GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" "$pr_api_url/files")
 pr_files=$(jq -r '.[] | .filename' <<<"$pr_files_json")
 
 # shellcheck disable=SC2199

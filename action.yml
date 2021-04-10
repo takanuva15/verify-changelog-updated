@@ -18,5 +18,7 @@ runs:
   - run: ${{ github.action_path }}/verify_changelog_updated.sh
     shell: bash
     env:
+      GITHUB_TOKEN: ${{ github.token }}
+      OWNER: ${{ github.repository_owner }}
       EXCUSED_LABEL: ${{ inputs.excused_label }}
       CHANGELOG_FILENAME: ${{ inputs.changelog_filename }}
