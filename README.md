@@ -18,8 +18,6 @@ jobs:
     steps:
     - name: Verify Changelog Updated
       uses: takanuva15/verify-changelog-updated@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 Commit the file and create a PR to `main` - you should see the action run.
 
@@ -40,11 +38,6 @@ steps:
     with:
       excused_label: my_custom_label
       changelog_filename: changelog.txt
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # Note: The `GITHUB_TOKEN` environment variable is required in
-      # order to authorize this action to access information about
-      # the files changed in the current PR
 ```
 
 ## Contributing
