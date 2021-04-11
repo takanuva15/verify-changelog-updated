@@ -27,6 +27,8 @@ There are two additional parameters you can specify for the GitHub action:
   - Default is `changelog update optional`
 - `changelog_filename`: The name of the changelog file. The GitHub Action will verify whether this file has been updated within the PR.
   - Default is `CHANGELOG.md`
+- `token`: The authentication token to use for accessing the PR's information. A token is required in order to view the files changed in a PR.
+  - Default is `"${{ github.token }}"`
 
 (Both parameters are case-sensitive)
 
@@ -38,6 +40,7 @@ steps:
     with:
       excused_label: my_custom_label
       changelog_filename: changelog.txt
+      token: ${{ secrets.MY_TOKEN }}
 ```
 
 ## Notes
