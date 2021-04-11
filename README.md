@@ -40,6 +40,9 @@ steps:
       changelog_filename: changelog.txt
 ```
 
+## Notes
+If you add a label after a PR has already been created, you will need to trigger a fresh build by pushing (or force-pushing) a commit. (This is due to GitHub caching the PR data when the PR is created, so a commit is required in order to refresh the cache)
+
 ## Contributing
 We are happy to take contributions. If you experience an issue or see something that can be improved, feel free to raise an issue. Assuming that there is agreement on the issue, fork the repo and raise a PR to make your change.
 
