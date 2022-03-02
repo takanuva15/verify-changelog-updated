@@ -1,15 +1,15 @@
-name: Verify Changelog Updated
-description: Verify that the changelog file has been updated in the current PR
+name: Verify File Updated
+description: Verify that the user-specified file has been updated in the current PR
 branding:
   icon: check-circle
   color: orange
 inputs:
   excused_label:
-    description: PR label that exempts the PR from the changelog update requirement if present
+    description: PR label that exempts the PR from the user-specified file-update requirement if present
     required: false
     default: changelog update optional
-  changelog_filename:
-    description: Name of the changelog file (case-sensitive)
+  filename_to_check:
+    description: Name of the user-specified file to check for (case-sensitive)
     required: false
     default: CHANGELOG.md
   token:
@@ -24,7 +24,7 @@ runs:
     run: |
       if [ ${{ github.event.pull_request != null }} == false ]; then
         echo "PR info could not be found! This action should only be run in the context of a PR. Please verify this" \
-          "action is only being triggered on 'pull_request'. (See this action\"s README for more info)" >&2
+          "action is only being triggered on 'pull_request'. (See this action\'s README for more info)" >&2
         exit 1
       fi
 
@@ -33,11 +33,11 @@ runs:
     shell: bash
     run: |
       if [ ${{ contains(github.event.pull_request.labels.*.name, inputs.excused_label) }} == true ]; then
-        echo "PR has label '${{ inputs.excused_label }}', so no changelog update is required"
+        echo "PR has label '${{ inputs.excused_label }}', so no update to '${{ inputs.filename_to_check }}' is required"
         echo "::set-output name=pr_excused::true"
       fi
 
-  - name: Verify that the changelog file has been updated (if PR not excused)
+  - name: Verify that the file has been updated (if PR not excused)
     shell: bash
     run: |
       if [ "${{ steps.pr_excused_check.outputs.pr_excused }}" != true ]; then
@@ -45,11 +45,11 @@ runs:
           echo "Could not fetch info about the current PR. Perhaps an invalid token was provided?" >&2
           exit 1
         fi
-        $GITHUB_ACTION_PATH/verify_changelog_updated.sh
+        $GITHUB_ACTION_PATH/verify_file_updated.sh
       fi
     env:
       PR_API_URL: ${{ github.event.pull_request._links.self.href }}
       GITHUB_TOKEN: ${{ inputs.token }}
       OWNER: ${{ github.repository_owner }}
       EXCUSED_LABEL: ${{ inputs.excused_label }}
-      CHANGELOG_FILENAME: ${{ inputs.changelog_filename }}
+      FILENAME_TO_CHECK: ${{ inputs.filename_to_check }}
